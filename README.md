@@ -58,6 +58,7 @@ object Overloading extends App {
 
   class A {
     def m(x: A): A = { println("A.m(A)"); new B() }
+    def m(x: A, y: A): Unit = { println("A.m(A, A)") }
     def m(x: A, y: B): Unit = { println("A.m(A, B)") }
     def m(x: B, y: A): Unit = { println("A.m(B, A)") }
     def m(x: C, y: C): Unit = { println("A.m(C, C)") }
@@ -253,8 +254,7 @@ resolved?
 * First determine the class or trait where to start searching for
   candidate methods. This is done via the static type `T1` of the
   receiver object `e1`. Then find methods `m` that are applicable and
-  accessible within `T1`. Note that this includes all accessible
-  methods that `T1` inherits from its parent class or traits.
+  accessible within `T1`.
 
 * Now we need to determine the static types of the argument
   expressions `e1, ..., en` so that we can decide which methods are
@@ -275,7 +275,8 @@ resolved?
     package where it is declared.
 
   * do not attempt to access a protected method of a class `C` from
-    a scope that is not a subclass of `C`.
+    a scope that is not a subclass of `C` or the companion object of a
+    subclass of `C`.
   
 
 * If more than one method declaration is both accessible and
@@ -299,6 +300,10 @@ resolved?
     coercion rules for numeric types from the JVM. They are enumerated
     in the Java language specification.
 
+* If no matching method is found in `T1`, then proceed with the search
+  in `T1`'s parent class or trait as above. If `T1` is the result of a
+  mixin composition, the immediate parent of `T1` is the rightmost
+  trait preceeding `T1` in the mixin chain.
 
 ## Object Initialization
 

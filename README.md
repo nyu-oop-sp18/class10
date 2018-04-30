@@ -557,7 +557,7 @@ The explanation is as follows:
 
 In programming language semantics we distinguish between different
 parameter passing modes for function/method calls, most notably the
-*call-by-value* and *call-by-name* modes. In call-by-name parameter
+*call-by-value* and *call-by-name* modes. In call-by-value parameter
 passing, the arguments to methods calls are evaluated before the call
 is executed and only the values are passed to the method. Thus, each
 argument is evaluated exactly once before the call. On the other hand,
